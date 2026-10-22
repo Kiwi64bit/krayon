@@ -41,6 +41,15 @@ void krayon_fill_canvas(
     KrayonColor color
 );
 
+void krayon_fill_rect(
+    KrayonCanvas canvas,
+    int left,
+    int top,
+    int width,
+    int height,
+    KrayonColor color
+);
+
 #endif // INCLUDE_KRAYON_H
 
 #ifdef KRAYON_IMPLEMENTATION
@@ -50,6 +59,27 @@ void krayon_fill_canvas(KrayonCanvas canvas, KrayonColor color)
 {
     for (size_t y = 0; y < canvas.height; y++) {
         for (size_t x = 0; x < canvas.width; x++) {
+            canvas.pixels[y * canvas.width + x] = color;
+        }
+    }
+}
+
+void krayon_fill_rect(
+    KrayonCanvas canvas,
+    int left,
+    int top,
+    int width,
+    int height,
+    KrayonColor color
+)
+{
+    int right = left + width - 1;
+    int bottom = top + height - 1;
+
+    for (int y = top; y <= bottom; y++) {
+        if (!(0 <= y && y < (int)canvas.height)) continue;
+        for (int x = left; x <= right; x++) {
+            if (!(0 <= x && x < (int)canvas.width)) continue;
             canvas.pixels[y * canvas.width + x] = color;
         }
     }
