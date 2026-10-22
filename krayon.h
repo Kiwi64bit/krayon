@@ -50,6 +50,14 @@ void krayon_fill_rect(
     KrayonColor color
 );
 
+void krayon_fill_circle(
+    KrayonCanvas canvas,
+    int cx,
+    int cy,
+    int radius,
+    uint32_t color
+);
+
 #endif // INCLUDE_KRAYON_H
 
 #ifdef KRAYON_IMPLEMENTATION
@@ -80,6 +88,30 @@ void krayon_fill_rect(
         if (!(0 <= y && y < (int)canvas.height)) continue;
         for (int x = left; x <= right; x++) {
             if (!(0 <= x && x < (int)canvas.width)) continue;
+            canvas.pixels[y * canvas.width + x] = color;
+        }
+    }
+}
+
+void krayon_fill_circle(
+    KrayonCanvas canvas,
+    int cx,
+    int cy,
+    int radius,
+    uint32_t color
+)
+{
+    int left = cx - radius, right = cx + radius;
+    int top = cy - radius, bottom = cy + radius;
+    int radius_squared = radius * radius;
+    int dx, dy;
+    for (int y = top; y <= bottom; y++) {
+        if (!(0 <= y && y < (int)canvas.height)) continue;
+        for (int x = left; x <= right; x++) {
+            if (!(0 <= x && x < (int)canvas.width)) continue;
+            dx = x - cx;
+            dy = y - cy;
+            if (dx * dx + dy * dy > radius_squared) continue;
             canvas.pixels[y * canvas.width + x] = color;
         }
     }
