@@ -13,6 +13,15 @@ LICENSE
 
 #include <stdint.h>
 
+#define KRAYON_COLOR_WHITE   0xFFFFFFFF
+#define KRAYON_COLOR_BLACK   0x000000FF
+#define KRAYON_COLOR_RED     0xFF0000FF
+#define KRAYON_COLOR_GREEN   0x00FF00FF
+#define KRAYON_COLOR_BLUE    0x0000FFFF
+#define KRAYON_COLOR_CYAN    0x00FFFFFF
+#define KRAYON_COLOR_MAGENTA 0xFF00FFFF
+#define KRAYON_COLOR_YELLOW  0xFFFF00FF
+
 #define KRAYON_COLOR_RGBA(r, g, b, a)                                          \
     (((uint32_t)((r) & 0xFFu) << (8 * 3)) |                                    \
      ((uint32_t)((g) & 0xFFu) << (8 * 2)) |                                    \
