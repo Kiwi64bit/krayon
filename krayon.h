@@ -117,6 +117,32 @@ void krayon_fill_circle(
     }
 }
 
+void krayon_fill_ellipse(
+    KrayonCanvas canvas,
+    int cx,
+    int cy,
+    int ra,
+    int rb,
+    KrayonColor color
+)
+{
+    int left = cx - ra, right = cx + ra;
+    int top = cy - rb, bottom = cy + rb;
+    int ra_2 = ra * ra, rb_2 = rb * rb;
+    int rab_2 = ra_2 * rb_2;
+    int dx, dy;
+    for (int y = top; y <= bottom; y++) {
+        if (!(0 <= y && y < (int)canvas.height)) continue;
+        for (int x = left; x <= right; x++) {
+            if (!(0 <= x && x < (int)canvas.width)) continue;
+            dx = x - cx;
+            dy = y - cy;
+            if (!(dx * dx * rb_2 + dy * dy * ra_2 <= rab_2)) continue;
+            canvas.pixels[y * canvas.width + x] = color;
+        }
+    }
+}
+
 #endif // KRAYON_IMPLEMENTATION
 
 /*
