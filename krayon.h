@@ -12,6 +12,7 @@ LICENSE
 #define INCLUDE_KRAYON_H
 
 #include <stdint.h>
+#include <stdlib.h>
 
 #define KRAYON_COLOR_WHITE   0xFFFFFFFF
 #define KRAYON_COLOR_BLACK   0x000000FF
@@ -139,6 +140,42 @@ void krayon_fill_ellipse(
             dy = y - cy;
             if (!(dx * dx * rb_2 + dy * dy * ra_2 <= rab_2)) continue;
             canvas.pixels[y * canvas.width + x] = color;
+        }
+    }
+}
+
+void krayon_line(
+    KrayonCanvas canvas,
+    int x0,
+    int y0,
+    int x1,
+    int y1,
+    KrayonColor color
+)
+{
+    // Bresenham's line algorithm
+    int dx = abs(x1 - x0);
+    int dy = -abs(y1 - y0);
+
+    int sx = x0 < x1 ? 1 : -1;
+    int sy = y0 < y1 ? 1 : -1;
+
+    int err = dx + dy, e2;
+
+    while (1) {
+        if ((0 <= y0 && y0 < (int)canvas.height) &&
+            (0 <= x0 && x0 < (int)canvas.width))
+            canvas.pixels[y0 * canvas.width + x0] = color;
+        if (x0 == x1 && y0 == y1) break;
+
+        e2 = 2 * err;
+        if (e2 >= dy) {
+            err += dy;
+            x0 += sx;
+        }
+        if (e2 <= dx) {
+            err += dx;
+            y0 += sy;
         }
     }
 }
