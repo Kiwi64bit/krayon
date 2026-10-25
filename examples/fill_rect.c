@@ -5,11 +5,11 @@
 #define WIDTH  800
 #define HEIGHT 800
 
-KrayonColor pixels[WIDTH * HEIGHT];
+uint8_t data[WIDTH * HEIGHT * 4];
 KrayonCanvas canvas = {
     .width = WIDTH,
     .height = HEIGHT,
-    .pixels = pixels,
+    .data = data,
 };
 
 int main()
@@ -20,7 +20,7 @@ int main()
     krayon_fill_rect(canvas, 50, 100, 300, 200, KRAYON_COLOR_CYAN);
     krayon_fill_rect(canvas, 500, 450, 200, 300, KRAYON_COLOR_GREEN);
     write_ppm_file(
-        canvas.pixels,
+        canvas.data,
         canvas.width,
         canvas.height,
         "examples/images/fill_rect.ppm"

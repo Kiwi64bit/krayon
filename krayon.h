@@ -23,6 +23,11 @@ LICENSE
 #define KRAYON_COLOR_MAGENTA 0xFF00FFFF
 #define KRAYON_COLOR_YELLOW  0xFFFF00FF
 
+#define KRAYON_GET_R(c) ((uint8_t)((c) >> (8 * 3)))
+#define KRAYON_GET_G(c) ((uint8_t)((c) >> (8 * 2)))
+#define KRAYON_GET_B(c) ((uint8_t)((c) >> (8 * 1)))
+#define KRAYON_GET_A(c) ((uint8_t)((c) >> (8 * 0)))
+
 #define KRAYON_COLOR_RGBA(r, g, b, a)                                          \
     (((uint32_t)((r) & 0xFFu) << (8 * 3)) |                                    \
      ((uint32_t)((g) & 0xFFu) << (8 * 2)) |                                    \
@@ -34,7 +39,7 @@ typedef uint32_t KrayonColor;
 typedef struct KrayonCanvas {
     size_t width;
     size_t height;
-    KrayonColor *pixels;
+    uint8_t *data;
 } KrayonCanvas;
 
 void krayon_put_pixel(
@@ -75,7 +80,11 @@ void krayon_put_pixel(KrayonCanvas canvas, int x, int y, KrayonColor color)
 {
     if (!(0 <= y && y < (int)canvas.height)) return;
     if (!(0 <= x && x < (int)canvas.width)) return;
-    canvas.pixels[y * canvas.width + x] = color;
+    size_t index = ((size_t)y * canvas.width + (size_t)x) * 4;
+    canvas.data[index + 0] = KRAYON_GET_R(color);
+    canvas.data[index + 1] = KRAYON_GET_G(color);
+    canvas.data[index + 2] = KRAYON_GET_B(color);
+    canvas.data[index + 3] = KRAYON_GET_A(color);
 }
 
 void krayon_fill_canvas(KrayonCanvas canvas, KrayonColor color)

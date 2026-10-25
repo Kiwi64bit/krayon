@@ -18,11 +18,11 @@ uint32_t random_color()
 #define HEIGHT 800
 #define PI     3.141592654
 
-KrayonColor pixels[WIDTH * HEIGHT];
+uint8_t data[WIDTH * HEIGHT * 4];
 KrayonCanvas canvas = {
     .width = WIDTH,
     .height = HEIGHT,
-    .pixels = pixels,
+    .data = data,
 };
 
 int main()
@@ -46,7 +46,7 @@ int main()
     }
 
     write_ppm_file(
-        canvas.pixels,
+        canvas.data,
         canvas.width,
         canvas.height,
         "examples/images/line.ppm"

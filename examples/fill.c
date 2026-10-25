@@ -5,18 +5,18 @@
 #define WIDTH  800
 #define HEIGHT 800
 
-KrayonColor pixels[WIDTH * HEIGHT];
+uint8_t data[WIDTH * HEIGHT * 4];
 KrayonCanvas canvas = {
     .width = WIDTH,
     .height = HEIGHT,
-    .pixels = pixels,
+    .data = data,
 };
 
 int main()
 {
     krayon_fill_canvas(canvas, 0x60C1C8FF);
     write_ppm_file(
-        canvas.pixels,
+        canvas.data,
         canvas.width,
         canvas.height,
         "examples/images/fill.ppm"

@@ -1,7 +1,6 @@
 #ifndef WRITE_PPM_H_INCLUDED
 #define WRITE_PPM_H_INCLUDED
 
-#include <errno.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -11,30 +10,33 @@
 #define _COLOR_A(c) ((uint8_t)((c) >> (8 * 0)))
 
 int write_ppm_file(
-    const uint32_t *pixels, size_t width, size_t height, const char *file_path
+    const uint8_t *data,
+    size_t width,
+    size_t height,
+    const char *file_path
 )
 {
-    int result = 0;
-    FILE *outfile = NULL;
+    FILE *outfile;
 
     outfile = fopen(file_path, "wb");
-    if (!outfile) perror("Unable to open file");
+    if (!outfile) {
+        perror("Unable to open file");
+        return -1;
+    }
 
     fprintf(outfile, "P6\n%zu %zu\n255\n", width, height);
     if (ferror(outfile)) {
-        fclose(outfile);
         perror("Unable to write to file");
+        fclose(outfile);
+        return -1;
     }
 
     for (size_t i = 0; i < width * height; i++) {
-        uint32_t pixel = pixels[i];
-        uint8_t bytes[3] = {_COLOR_R(pixel), _COLOR_G(pixel), _COLOR_B(pixel)};
-        fwrite(bytes, sizeof(bytes), 1, outfile);
-        if (ferror(outfile)) perror("Failed to write to file");
+        fwrite(&data[i * 4], 1, 3, outfile);
     }
 
     printf("File generated successfully: %s\n", file_path);
-    return result;
+    return 0;
 }
 
 #endif // WRITE_PPM_H_INCLUDED

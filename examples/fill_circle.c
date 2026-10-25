@@ -16,11 +16,11 @@ uint32_t random_color()
 #define WIDTH  800
 #define HEIGHT 800
 
-uint32_t pixels[WIDTH * HEIGHT];
+uint8_t data[WIDTH * HEIGHT * 4];
 KrayonCanvas canvas = {
     .width = WIDTH,
     .height = HEIGHT,
-    .pixels = pixels,
+    .data = data,
 };
 
 int main()
@@ -40,7 +40,7 @@ int main()
     }
 
     write_ppm_file(
-        canvas.pixels,
+        canvas.data,
         canvas.width,
         canvas.height,
         "examples/images/fill_circle.ppm"
