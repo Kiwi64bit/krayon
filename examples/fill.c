@@ -3,8 +3,8 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "third_party/stb_image_write.h"
 
-#define WIDTH  800
-#define HEIGHT 800
+#define WIDTH  400
+#define HEIGHT 400
 
 uint8_t data[WIDTH * HEIGHT * 4];
 KrayonCanvas canvas = {

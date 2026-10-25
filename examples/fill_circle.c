@@ -14,8 +14,8 @@ uint32_t random_color()
     return KRAYON_COLOR_RGBA(r, g, b, 255u);
 }
 
-#define WIDTH  800
-#define HEIGHT 800
+#define WIDTH  400
+#define HEIGHT 400
 
 uint8_t data[WIDTH * HEIGHT * 4];
 KrayonCanvas canvas = {
@@ -28,9 +28,9 @@ int main()
 {
     // srand(time(NULL));
     krayon_fill_canvas(canvas, KRAYON_COLOR_WHITE);
-    int n = 100;
-    int radius_min = 10;
-    int radius_max = 50;
+    int n = 50;
+    int radius_min = 5;
+    int radius_max = 40;
     for (int i = 0; i < n; i++) {
         int cx = rand() % canvas.width;
         int cy = rand() % canvas.height;

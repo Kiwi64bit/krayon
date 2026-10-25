@@ -14,8 +14,8 @@ uint32_t random_color()
     return KRAYON_COLOR_RGBA(r, g, b, 255u);
 }
 
-#define WIDTH  800
-#define HEIGHT 800
+#define WIDTH  400
+#define HEIGHT 400
 
 uint8_t data[WIDTH * HEIGHT * 4];
 KrayonCanvas canvas = {
