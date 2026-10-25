@@ -1,6 +1,7 @@
 #define KRAYON_IMPLEMENTATION
 #include "krayon.h"
-#include "utils/write_ppm.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "third_party/stb_image_write.h"
 
 #define WIDTH  800
 #define HEIGHT 800
@@ -15,11 +16,13 @@ KrayonCanvas canvas = {
 int main()
 {
     krayon_fill_canvas(canvas, 0x60C1C8FF);
-    write_ppm_file(
-        canvas.data,
+    stbi_write_png(
+        "examples/images/fill.png",
         canvas.width,
         canvas.height,
-        "examples/images/fill.ppm"
+        4,
+        canvas.data,
+        canvas.width * 4
     );
     return 0;
 }

@@ -1,6 +1,7 @@
 #define KRAYON_IMPLEMENTATION
 #include "krayon.h"
-#include "utils/write_ppm.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "third_party/stb_image_write.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -39,11 +40,13 @@ int main()
         krayon_fill_circle(canvas, cx, cy, radius, color);
     }
 
-    write_ppm_file(
-        canvas.data,
+    stbi_write_png(
+        "examples/images/fill_circle.png",
         canvas.width,
         canvas.height,
-        "examples/images/fill_circle.ppm"
+        4,
+        canvas.data,
+        canvas.width * 4
     );
     return 0;
 }
