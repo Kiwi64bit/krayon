@@ -37,6 +37,13 @@ typedef struct KrayonCanvas {
     KrayonColor *pixels;
 } KrayonCanvas;
 
+void krayon_put_pixel(
+    KrayonCanvas canvas,
+    int x,
+    int y,
+    KrayonColor color
+);
+
 void krayon_fill_canvas(
     KrayonCanvas canvas,
     KrayonColor color
@@ -64,11 +71,18 @@ void krayon_fill_circle(
 #ifdef KRAYON_IMPLEMENTATION
 #undef KRAYON_IMPLEMENTATION
 
+void krayon_put_pixel(KrayonCanvas canvas, int x, int y, KrayonColor color)
+{
+    if (!(0 <= y && y < (int)canvas.height)) return;
+    if (!(0 <= x && x < (int)canvas.width)) return;
+    canvas.pixels[y * canvas.width + x] = color;
+}
+
 void krayon_fill_canvas(KrayonCanvas canvas, KrayonColor color)
 {
     for (size_t y = 0; y < canvas.height; y++) {
         for (size_t x = 0; x < canvas.width; x++) {
-            canvas.pixels[y * canvas.width + x] = color;
+            krayon_put_pixel(canvas, x, y, color);
         }
     }
 }
@@ -86,10 +100,8 @@ void krayon_fill_rect(
     int bottom = top + height - 1;
 
     for (int y = top; y <= bottom; y++) {
-        if (!(0 <= y && y < (int)canvas.height)) continue;
         for (int x = left; x <= right; x++) {
-            if (!(0 <= x && x < (int)canvas.width)) continue;
-            canvas.pixels[y * canvas.width + x] = color;
+            krayon_put_pixel(canvas, x, y, color);
         }
     }
 }
@@ -107,13 +119,11 @@ void krayon_fill_circle(
     int radius_squared = radius * radius;
     int dx, dy;
     for (int y = top; y <= bottom; y++) {
-        if (!(0 <= y && y < (int)canvas.height)) continue;
         for (int x = left; x <= right; x++) {
-            if (!(0 <= x && x < (int)canvas.width)) continue;
             dx = x - cx;
             dy = y - cy;
             if (dx * dx + dy * dy > radius_squared) continue;
-            canvas.pixels[y * canvas.width + x] = color;
+            krayon_put_pixel(canvas, x, y, color);
         }
     }
 }
@@ -133,13 +143,11 @@ void krayon_fill_ellipse(
     int rab_2 = ra_2 * rb_2;
     int dx, dy;
     for (int y = top; y <= bottom; y++) {
-        if (!(0 <= y && y < (int)canvas.height)) continue;
         for (int x = left; x <= right; x++) {
-            if (!(0 <= x && x < (int)canvas.width)) continue;
             dx = x - cx;
             dy = y - cy;
             if (!(dx * dx * rb_2 + dy * dy * ra_2 <= rab_2)) continue;
-            canvas.pixels[y * canvas.width + x] = color;
+            krayon_put_pixel(canvas, x, y, color);
         }
     }
 }
@@ -163,9 +171,7 @@ void krayon_line(
     int err = dx + dy, e2;
 
     while (1) {
-        if ((0 <= y0 && y0 < (int)canvas.height) &&
-            (0 <= x0 && x0 < (int)canvas.width))
-            canvas.pixels[y0 * canvas.width + x0] = color;
+        krayon_put_pixel(canvas, x0, y0, color);
         if (x0 == x1 && y0 == y1) break;
 
         e2 = 2 * err;
