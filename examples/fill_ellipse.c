@@ -1,7 +1,7 @@
 #define KRAYON_IMPLEMENTATION
 #include "krayon.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "third_party/stb_image_write.h"
+#include "dev_deps/stb_image_write.h"
 #include <stdlib.h>
 #include <time.h>
 
