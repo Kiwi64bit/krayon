@@ -68,7 +68,7 @@ void krayon_fill_circle(
     int cx,
     int cy,
     int radius,
-    uint32_t color
+    KrayonColor color
 );
 
 void krayon_fill_ellipse(
@@ -138,7 +138,7 @@ void krayon_fill_circle(
     int cx,
     int cy,
     int radius,
-    uint32_t color
+    KrayonColor color
 )
 {
     int left = cx - radius, right = cx + radius;
