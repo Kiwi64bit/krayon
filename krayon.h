@@ -71,6 +71,24 @@ void krayon_fill_circle(
     uint32_t color
 );
 
+void krayon_fill_ellipse(
+    KrayonCanvas canvas,
+    int cx,
+    int cy,
+    int ra,
+    int rb,
+    KrayonColor color
+);
+
+void krayon_line(
+    KrayonCanvas canvas,
+    int x0,
+    int y0,
+    int x1,
+    int y1,
+    KrayonColor color
+);
+
 #endif // INCLUDE_KRAYON_H
 
 #ifdef KRAYON_IMPLEMENTATION
